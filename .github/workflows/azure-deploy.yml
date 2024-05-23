@@ -3,6 +3,7 @@ on: push
 env:
   ASC_PACKAGE_PATH: ${{ github.workspace }}
   AZURE_SUBSCRIPTION: f2ecdfbd-c9a8-424d-9fd6-b9662a147ca8
+  AZURE_WEBAPP_NAME: microservice-template
 
 jobs:
   deploy_to_production:
@@ -27,13 +28,12 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: deploy to production with artifact
-        uses: azure/spring-apps-deploy@v1
-        with:
-          azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
-          action: Deploy
-          service-name: asa-a7rv3ajtdd5cy-standard
-          app-name: microservice-template
-          jvm-options: -Dspring.profiles.active=no-auth0
-          use-staging-deployment: false
+      # Deploy to Azure Web apps
+      - name: 'Run Azure webapp deploy action using publish profile credentials'
+        uses: azure/webapps-deploy@v3
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
           package: ${{ env.ASC_PACKAGE_PATH }}/**/*.jar
+      
+
+          
