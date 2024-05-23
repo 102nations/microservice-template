@@ -17,34 +17,13 @@ com:
   c4-soft:
     springaddons:
       oidc:
-        ops:
-        - iss: ${issuer}
-          username-claim: ${username-claim-json-path}
-          authorities:
-          - path: ${authorities-json-path}
-          aud: ${audience}
         resourceserver:
           permit-all:
-          - /me
+          - /api/v1/me
           - /v3/api-docs/**
           - /swagger-ui/**
-          - /actuator/health/readiness
-          - /actuator/health/liveness
-          
-management:
-  endpoint:
-    health:
-      probes:
-        enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  health:
-    livenessstate:
-      enabled: true
-    readinessstate:
-      enabled: true
+
+
 
 logging:
   level:
@@ -55,23 +34,9 @@ logging:
         security: INFO
         web: INFO
         
----
-spring:
-  config:
-    activate:
-      on-profile: ssl
-server:
-  ssl:
-    enabled: true
-scheme: https
-
 
 ---
 spring:
   config:
     activate:
       on-profile: auth0
-issuer: https://dev-7g6g7ug82m5ecl4i.us.auth0.com/
-username-claim-json-path: $['https://c4-soft.com/user']['name']
-authorities-json-path: $['https://c4-soft.com/user']['roles']
-audience: bff.baeldung.com
