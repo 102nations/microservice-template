@@ -9,10 +9,6 @@ authorities-json-path: $.realm_access.roles
 resource-server-port: 7084
 audience: bff.baeldung.com
 
-server:
-  port: ${resource-server-port}
-  ssl:
-    enabled: false
 
 logging:
   level:
@@ -28,10 +24,6 @@ spring:
   config:
     activate:
       on-profile: no-auth0
-server:
-  ssl:
-    enabled: false
-scheme: https
 ---
 spring:
   config:
@@ -52,6 +44,10 @@ issuer: https://dev-7g6g7ug82m5ecl4i.us.auth0.com/
 username-claim-json-path: $['https://c4-soft.com/user']['name']
 authorities-json-path: $['https://c4-soft.com/user']['roles']
 audience: bff.baeldung.com
+server:
+  port: ${resource-server-port}
+  ssl:
+    enabled: false
 com:
   c4-soft:
     springaddons:
@@ -78,6 +74,10 @@ issuer: https://dev-7g6g7ug82m5ecl4i.us.auth0.com/
 username-claim-json-path: $['https://c4-soft.com/user']['name']
 authorities-json-path: $['https://c4-soft.com/user']['roles']
 audience: bff.baeldung.com
+server:
+  port: ${resource-server-port}
+  ssl:
+    enabled: false
 com:
   c4-soft:
     springaddons:
