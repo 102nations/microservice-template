@@ -3,7 +3,7 @@ on: push
 env:
   ASC_PACKAGE_PATH: ${{ github.workspace }}
   AZURE_SUBSCRIPTION: f2ecdfbd-c9a8-424d-9fd6-b9662a147ca8
-  AZURE_WEBAPP_NAME: microservice-template
+  AZURE_WEBAPP_NAME: microservices-template
 
 jobs:
   deploy_to_production:
