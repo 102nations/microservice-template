@@ -10,7 +10,6 @@ resource-server-port: 7084
 audience: bff.baeldung.com
 
 server:
-  port: ${resource-server-port}
   ssl:
     enabled: false
 
