@@ -34,5 +34,6 @@ jobs:
           action: Deploy
           service-name: asa-a7rv3ajtdd5cy-standard
           app-name: microservice-template
+          jvm-options: -Dspring.profiles.active=auth0
           use-staging-deployment: false
           package: ${{ env.ASC_PACKAGE_PATH }}/**/*.jar
