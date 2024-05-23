@@ -32,7 +32,7 @@ jobs:
         with:
           azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
           action: Deploy
-          service-name: <service instance name>
-          app-name: <app name>
+          service-name: asa-a7rv3ajtdd5cy-standard
+          app-name: microservice-template
           use-staging-deployment: false
           package: ${{ env.ASC_PACKAGE_PATH }}/**/*.jar
