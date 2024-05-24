@@ -9,7 +9,6 @@ authorities-json-path: $.realm_access.roles
 resource-server-port: 7084
 audience: bff.baeldung.com
 
-
 logging:
   level:
     root: INFO

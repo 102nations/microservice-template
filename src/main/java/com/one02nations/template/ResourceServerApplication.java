@@ -1,4 +1,4 @@
-package com.one02nations.template.controller;
+package com.one02nations.template;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
