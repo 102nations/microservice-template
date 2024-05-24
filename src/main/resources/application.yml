@@ -6,9 +6,11 @@ authorization-server-prefix: /auth
 issuer: ${reverse-proxy-uri}${authorization-server-prefix}/realms/baeldung
 username-claim-json-path: $.preferred_username
 authorities-json-path: $.realm_access.roles
-resource-server-port: 7084
+resource-server-port: 8080
 audience: bff.baeldung.com
-
+server:
+  ssl:
+    enabled: false
 logging:
   level:
     root: INFO
@@ -58,6 +60,10 @@ issuer: https://dev-7g6g7ug82m5ecl4i.us.auth0.com/
 username-claim-json-path: $['https://c4-soft.com/user']['name']
 authorities-json-path: $['https://c4-soft.com/user']['roles']
 audience: bff.baeldung.com
+server:
+  port: ${resource-server-port}
+  ssl:
+    enabled: false
 com:
   c4-soft:
     springaddons:
@@ -70,7 +76,7 @@ com:
           aud: ${audience}
         resourceserver:
           permit-all:
-          - /api/**
+          - /api/v1/test
           - /v3/api-docs/**
           - /swagger-ui/**
           - /actuator/health/readiness
@@ -100,7 +106,7 @@ com:
           aud: ${audience}
         resourceserver:
           permit-all:
-          - /me
+          - /api/v1/test
           - /v3/api-docs/**
           - /swagger-ui/**
           - /actuator/health/readiness
