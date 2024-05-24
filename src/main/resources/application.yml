@@ -33,7 +33,22 @@ server:
     enabled: true
 scheme: https
 
-
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+com:
+  c4-soft:
+    springaddons:
+      oidc:
+        resourceserver:
+          permit-all:
+          - /me
+          - /v3/api-docs/**
+          - /swagger-ui/**
+          - /actuator/health/readiness
+          - /actuator/health/liveness                
 ---
 spring:
   config:
@@ -59,7 +74,7 @@ com:
           aud: ${audience}
         resourceserver:
           permit-all:
-          - /me
+          - /api/**
           - /v3/api-docs/**
           - /swagger-ui/**
           - /actuator/health/readiness
