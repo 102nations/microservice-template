@@ -19,7 +19,7 @@
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ secrets.AZURE_RG }}
-          template: ./deployappservice.json
+          template: ./appservicedeploytemplate.json
           parameters: storageAccountType=Standard_LRS
 
         # output containerName variable from template
