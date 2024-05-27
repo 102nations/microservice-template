@@ -1,22 +1,26 @@
- on: [push]
-  name: Azure ARM
-  jobs:
-    build-and-deploy:
-      runs-on: ubuntu-latest
-      steps:
+name: AzureSpringApps
+on: push
+env:
+  AZURE_SUBSCRIPTION: f2ecdfbd-c9a8-424d-9fd6-b9662a147ca8
+  AZURE_WEBAPP_NAME: microservices-template
+  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
 
-        # Checkout code
-      - uses: actions/checkout@main
+      # Checkout code
+    - uses: actions/checkout@main
 
-        # Log into Azure
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-        # Deploy ARM template
-      - name: Run ARM deploy
-        uses: azure/arm-deploy@v1
-        with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: rg-project-sb1
-          template: ./appservicedeploytemplate.json
+      # Deploy ARM template
+    - name: Run ARM deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ env.AZURE_SUBSCRIPTION }}
+        resourceGroupName: rg-project-sb1
+        template: ./appservicedeploytemplate.json
