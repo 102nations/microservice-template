@@ -23,4 +23,4 @@ jobs:
       with:
         subscriptionId: ${{ env.AZURE_SUBSCRIPTION }}
         resourceGroupName: rg-project-sb1
-        template: appservicedeploytemplate.json
+        template: ./azure/iac/appservicedeploytemplate.json
