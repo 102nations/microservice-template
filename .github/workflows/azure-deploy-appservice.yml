@@ -18,9 +18,5 @@
         uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: ${{ secrets.AZURE_RG }}
+          resourceGroupName: rg-project-sb1
           template: ./appservicedeploytemplate.json
-          parameters: storageAccountType=Standard_LRS
-
-        # output containerName variable from template
-      - run: echo ${{ steps.deploy.outputs.containerName }}
