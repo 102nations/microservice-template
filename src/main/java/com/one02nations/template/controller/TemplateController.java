@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,12 +13,19 @@ import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.one02nations.template.model.User;
+import com.one02nations.template.repository.UserRepository;
 
 @RestController
 @RequestMapping(path = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TemplateController {
+	
 
     @GetMapping("/me")
     public UserInfoDto getMe(Authentication auth) {
@@ -60,5 +68,24 @@ public class TemplateController {
     public String doTest() {
     	return "This is a test";
     }
-    
+    private final UserRepository repository;
+
+    TemplateController(UserRepository repository) {
+		this.repository = repository;
+	}
+
+	@GetMapping("/users/{id}")
+	User findByUserId(@PathVariable String id) {
+
+		return repository.findByUserId(id).orElseThrow(() -> {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, id+ " Not Found");
+		});
+	}
+	@PostMapping("/users/{id}")
+	User createUser(@PathVariable String id) {
+
+		return repository.findByUserId(id).orElseThrow(() -> {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, id+" Not Found ");
+		});
+	}
 }

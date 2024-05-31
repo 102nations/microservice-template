@@ -21,6 +21,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.one02nations.template.model.User;
+import com.one02nations.template.repository.UserRepository;
+
 import jakarta.annotation.PostConstruct;
 
 /**
@@ -33,10 +36,11 @@ import jakarta.annotation.PostConstruct;
 class TemplateControllerTest {
 
 	static MockMvc mockMvc;
+	@Autowired
+	private UserRepository repository;
 
 	@Autowired
 	private WebApplicationContext controller;
-
 
 	@PostConstruct
 	public void setup() {
@@ -49,16 +53,36 @@ class TemplateControllerTest {
 
 	@Test
 	public void testPrivateEndpointReturnsUnauthorizedWhenCalled() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(get("/api/v1/me")).andDo(print())
-				.andExpect(status().isUnauthorized()).andReturn();
+		MvcResult mvcResult = mockMvc.perform(get("/api/v1/me")).andDo(print()).andExpect(status().isUnauthorized())
+				.andReturn();
 	}
 
 	@Test
 	@WithMockUser(username = "testUser")
 	public void testPrivateEndpointReturnsOkWhenAuthorized() throws Exception {
 
-		MvcResult mvcResult = mockMvc.perform(get("/api/v1/test")).andDo(print())
-				.andExpect(status().isOk()).andReturn();
+		MvcResult mvcResult = mockMvc.perform(get("/api/v1/me")).andDo(print()).andExpect(status().isOk()).andReturn();
+		assertNotNull(mvcResult.getResponse().getContentAsString());
+
+	}
+
+	@Test
+	public void testPublicEndpointReturnsOkWhenCalled() throws Exception {
+
+		MvcResult mvcResult = mockMvc.perform(get("/api/v1/test")).andDo(print()).andExpect(status().isOk())
+				.andReturn();
+		assertNotNull(mvcResult.getResponse().getContentAsString());
+
+	}
+
+	@Test
+	@WithMockUser(username = "testUser")
+	public void testPrivateEndpointReturnsOkWhenCalled() throws Exception {
+
+		User usr = com.one02nations.template.model.User.builder().email("test").userId("testUser").build();
+		repository.insert(usr);
+		MvcResult mvcResult = mockMvc.perform(get("/api/v1/users/testUser")).andDo(print()).andExpect(status().isOk())
+				.andReturn();
 		assertNotNull(mvcResult.getResponse().getContentAsString());
 
 	}
