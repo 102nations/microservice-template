@@ -8,12 +8,6 @@ username-claim-json-path: $.preferred_username
 authorities-json-path: $.realm_access.roles
 resource-server-port: 8080
 audience: bff.baeldung.com
-spring:
-  data:
-    mongodb:
-      uri: mongodb+srv://application_user:O79u71Rlj0FDrNTC@102nationscluster.bezfxm2.mongodb.net/?retryWrites=true&w=majority&appName=102nationscluster
-      database: 102nationscluster          
-          
           
 server:
   ssl:
@@ -71,6 +65,10 @@ server:
   port: ${resource-server-port}
   ssl:
     enabled: false
+  data:
+    mongodb:
+      uri: mongodb+srv://application_user:O79u71Rlj0FDrNTC@102nationscluster.bezfxm2.mongodb.net/?retryWrites=true&w=majority&appName=102nationscluster
+      database: 102nationscluster              
 com:
   c4-soft:
     springaddons:
@@ -101,6 +99,10 @@ server:
   port: ${resource-server-port}
   ssl:
     enabled: false
+  data:
+    mongodb:
+      uri: mongodb+srv://application_user:O79u71Rlj0FDrNTC@102nationscluster.bezfxm2.mongodb.net/?retryWrites=true&w=majority&appName=102nationscluster
+      database: 102nationscluster          
 com:
   c4-soft:
     springaddons:
