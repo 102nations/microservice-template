@@ -1,5 +1,10 @@
 name: AzureSpringApps
-on: push
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
 env:
   ASC_PACKAGE_PATH: ${{ github.workspace }}
   AZURE_SUBSCRIPTION: f2ecdfbd-c9a8-424d-9fd6-b9662a147ca8
