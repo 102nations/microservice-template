@@ -7,8 +7,8 @@ on:
       - src/**
 env:
   ASC_PACKAGE_PATH: ${{ github.workspace }}
-  AZURE_SUBSCRIPTION: f2ecdfbd-c9a8-424d-9fd6-b9662a147ca8
-  AZURE_WEBAPP_NAME: microservices-template
+  AZURE_SUBSCRIPTION: 6f25a7f4-92bb-440a-a21e-1cbae174dc04
+  AZURE_WEBAPP_NAME: sb1-microservices-template
 
 jobs:
   deploy_to_production:
