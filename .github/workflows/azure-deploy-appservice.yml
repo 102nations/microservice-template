@@ -1,4 +1,4 @@
-name: AzureSpringApps
+name: CreateAppServicesAndApp
 on:
   push:
     branches:
