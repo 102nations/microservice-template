@@ -1,10 +1,5 @@
 name: CreateAppServicesAndApp
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - azure/**
+on: workflow_dispatch
 env:
   AZURE_SUBSCRIPTION: f2ecdfbd-c9a8-424d-9fd6-b9662a147ca8
   AZURE_WEBAPP_NAME: microservices-template
