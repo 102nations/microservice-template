@@ -45,7 +45,7 @@ public class UserService {
 
 	public void deleteUser(final String id) throws UserServiceException {
 		if (userRepository.findByUserId(id).isPresent()) {
-			userRepository.deleteById(id);
+			userRepository.deleteByUserId(id);
 		} else {
 			throw new UserServiceException("User with id = " + id + " Does Not Exists");
 

@@ -8,6 +8,7 @@ import com.one02nations.template.model.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
   Optional<User> findByUserId(String userId);
+  Optional<User> deleteByUserId(String userId);
   Boolean existsByUserId(String userId);
   Boolean existsByEmail(String email);
 }
