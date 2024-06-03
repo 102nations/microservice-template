@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Optional;
@@ -114,6 +115,26 @@ class TemplateControllerTest {
 		User usr = com.one02nations.template.model.User.builder().email("test").userId("testUser2").build();
 		when(repository.findByUserId("testUser2")).thenReturn(Optional.empty());
 		MvcResult mvcResult = mockMvc.perform(post("/api/v1/users/testUser2")).andExpect(status().isOk()).andReturn();
+		assertNotNull(mvcResult.getResponse().getContentAsString());
+
+	}
+	
+	@Test
+	@WithMockUser(username = "testUser2")
+	public void testPrivateCreateUserWhenCalledDeleteUser() throws Exception {
+		User usr = com.one02nations.template.model.User.builder().email("test").userId("testUser2").build();
+		when(repository.findByUserId("testUser2")).thenReturn(Optional.of(usr));
+		MvcResult mvcResult = mockMvc.perform(delete("/api/v1/users/testUser2")).andExpect(status().isOk()).andReturn();
+		assertNotNull(mvcResult.getResponse().getContentAsString());
+
+	}
+	@Test
+	@WithMockUser(username = "testUser2")
+	public void testPrivateCreateUserWhenCalledDeleteUserThrowsException() throws Exception {
+		User usr = com.one02nations.template.model.User.builder().email("test").userId("testUser2").build();
+		when(repository.findByUserId("testUser2")).thenReturn(Optional.empty());
+		MvcResult mvcResult = mockMvc.perform(delete("/api/v1/users/testUser2")).andExpect(status().isNotFound())
+				.andReturn();
 		assertNotNull(mvcResult.getResponse().getContentAsString());
 
 	}

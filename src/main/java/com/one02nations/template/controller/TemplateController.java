@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,6 +92,15 @@ public class TemplateController {
 			return userService.createUser(id);
 		} catch (UserServiceException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+
+		}
+	}
+	@DeleteMapping("/users/{id}")
+	void deleteUserById(@PathVariable String id) {
+		try {
+		  userService.deleteUser(id);
+		} catch (UserServiceException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 
 		}
 	}
