@@ -40,7 +40,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-          jvm-options: -Dspring.profiles.active=no-auth0
           package: ${{ env.ASC_PACKAGE_PATH }}/**/*.jar
       
 
