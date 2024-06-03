@@ -57,6 +57,10 @@ spring:
   config:
     activate:
       on-profile: auth0
+  data:
+    mongodb:
+      uri: mongodb+srv://application_user:O79u71Rlj0FDrNTC@102nationscluster.bezfxm2.mongodb.net/?retryWrites=true&w=majority&appName=102nationscluster
+      database: 102nationscluster          
 issuer: https://dev-7g6g7ug82m5ecl4i.us.auth0.com/
 username-claim-json-path: $['https://c4-soft.com/user']['name']
 authorities-json-path: $['https://c4-soft.com/user']['roles']
@@ -64,11 +68,7 @@ audience: bff.baeldung.com
 server:
   port: ${resource-server-port}
   ssl:
-    enabled: false
-  data:
-    mongodb:
-      uri: mongodb+srv://application_user:O79u71Rlj0FDrNTC@102nationscluster.bezfxm2.mongodb.net/?retryWrites=true&w=majority&appName=102nationscluster
-      database: 102nationscluster              
+    enabled: false          
 com:
   c4-soft:
     springaddons:
