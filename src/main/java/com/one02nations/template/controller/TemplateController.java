@@ -20,72 +20,78 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.one02nations.template.model.User;
-import com.one02nations.template.repository.UserRepository;
+import com.one02nations.template.service.UserService;
+import com.one02nations.template.service.UserServiceException;
 
 @RestController
 @RequestMapping(path = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TemplateController {
-	
 
-    @GetMapping("/me")
-    public UserInfoDto getMe(Authentication auth) {
-        if (auth instanceof JwtAuthenticationToken jwtAuth) {
-            final var email = (String) jwtAuth.getTokenAttributes()
-                .getOrDefault(StandardClaimNames.EMAIL, "");
-            final var roles = auth.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-            final var exp = Optional.ofNullable(jwtAuth.getTokenAttributes()
-                .get(JwtClaimNames.EXP)).map(expClaim -> {
-                    if(expClaim instanceof Long lexp) {
-                        return lexp;
-                    }
-                    if(expClaim instanceof Instant iexp) {
-                        return iexp.getEpochSecond();
-                    }
-                    if(expClaim instanceof Date dexp) {
-                        return dexp.toInstant().getEpochSecond();
-                    }
-                    return Long.MAX_VALUE;
-                }).orElse(Long.MAX_VALUE);
-            return new UserInfoDto(auth.getName(), email, roles, exp);
-        }
-        return UserInfoDto.ANONYMOUS;
-    }
+	@GetMapping("/me")
+	public UserInfoDto getMe(Authentication auth) {
+		if (auth instanceof JwtAuthenticationToken jwtAuth) {
+			final var email = (String) jwtAuth.getTokenAttributes().getOrDefault(StandardClaimNames.EMAIL, "");
+			final var roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+			final var exp = Optional.ofNullable(jwtAuth.getTokenAttributes().get(JwtClaimNames.EXP)).map(expClaim -> {
+				if (expClaim instanceof Long lexp) {
+					return lexp;
+				}
+				if (expClaim instanceof Instant iexp) {
+					return iexp.getEpochSecond();
+				}
+				if (expClaim instanceof Date dexp) {
+					return dexp.toInstant().getEpochSecond();
+				}
+				return Long.MAX_VALUE;
+			}).orElse(Long.MAX_VALUE);
+			return new UserInfoDto(auth.getName(), email, roles, exp);
+		}
+		return UserInfoDto.ANONYMOUS;
+	}
 
-    /**
-     * @param username a unique identifier for the resource owner in the token (sub claim by default)
-     * @param email OpenID email claim
-     * @param roles Spring authorities resolved for the authentication in the security context
-     * @param exp seconds from 1970-01-01T00:00:00Z UTC until the specified UTC date/time when the access token expires
-     */
-    public static record UserInfoDto(String username, String email, List<String> roles, Long exp) {
-        public static final UserInfoDto ANONYMOUS = new UserInfoDto("", "", List.of(), Long.MAX_VALUE);
-    }
-    
-    @GetMapping("/test")
-    public String doTest() {
-    	return "This is a test";
-    }
-    private final UserRepository repository;
+	/**
+	 * @param username a unique identifier for the resource owner in the token (sub
+	 *                 claim by default)
+	 * @param email    OpenID email claim
+	 * @param roles    Spring authorities resolved for the authentication in the
+	 *                 security context
+	 * @param exp      seconds from 1970-01-01T00:00:00Z UTC until the specified UTC
+	 *                 date/time when the access token expires
+	 */
+	public static record UserInfoDto(String username, String email, List<String> roles, Long exp) {
+		public static final UserInfoDto ANONYMOUS = new UserInfoDto("", "", List.of(), Long.MAX_VALUE);
+	}
 
-    TemplateController(UserRepository repository) {
-		this.repository = repository;
+	@GetMapping("/test")
+	public String doTest() {
+		return "This is a test";
+	}
+
+	private final UserService userService;
+
+	TemplateController(UserService userService) {
+		this.userService = userService;
 	}
 
 	@GetMapping("/users/{id}")
 	User findByUserId(@PathVariable String id) {
 
-		return repository.findByUserId(id).orElseThrow(() -> {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, id+ " Not Found");
-		});
+		try {
+			return userService.findUserByID(id);
+		} catch (UserServiceException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+
+		}
+
 	}
+
 	@PostMapping("/users/{id}")
 	User createUser(@PathVariable String id) {
+		try {
+			return userService.createUser(id);
+		} catch (UserServiceException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 
-		return repository.findByUserId(id).orElseThrow(() -> {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, id+" Not Found ");
-		});
+		}
 	}
 }
