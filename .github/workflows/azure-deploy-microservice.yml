@@ -1,5 +1,7 @@
 name: AzureSpringApps
+
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
