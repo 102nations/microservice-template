@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sites_microservices_template_name": {
-            "defaultValue": "microservices-template",
+            "defaultValue": "sb1-microservices-template",
             "type": "String"
         },
         "serverfarms_ASP_rgprojectsb1_b923_name": {
